@@ -2922,7 +2922,7 @@ html.no-csstransitions .home-content__main {
     letter-spacing: .1rem;
     padding: 0 2rem;
     margin: 0;
-    color: #FFFFFF;
+    color: black;
     background: white;
 }
 
@@ -2963,7 +2963,7 @@ html.no-csstransitions .home-content__main {
 .contact-content h3 {
     margin-top: 0;
     margin-bottom: 6.6rem;
-    color: #FFFFFF;
+    color: black;
 }
 
 .contact-content h5 {
