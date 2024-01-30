@@ -35,7 +35,23 @@
      >
 
 </head>
+  <style>
+    #breakingImageContainer {
+      position: relative;
+      width: 300px; /* Adjust the width of the container */
+      height: 200px; /* Adjust the height of the container */
+      overflow: hidden;
+    }
 
+    .pixel {
+      position: absolute;
+      background-color: #fff; /* Set the initial color of pixels to white */
+      width: 2px; /* Adjust the width of pixels */
+      height: 2px; /* Adjust the height of pixels */
+      pointer-events: none;
+      transition: transform 0.5s ease-in-out;
+    }
+  </style>
 <body id="top">
 
     <!-- header
@@ -319,7 +335,7 @@
                         <li>
                             <a href="#"><i class="fa fa-github" aria-hidden="true"></i></a>
                         </li>
-                    <img src="your_picture.jpg" alt="Your Picture">
+<div id="breakingImageContainer" onclick="reformImage()">
                     </ul> <!-- end contact-social -->
 
                 </div> <!-- end contact-info -->
@@ -329,6 +345,40 @@
 
     </section> <!-- end s-contact -->
 
+<script>
+  const container = document.getElementById('breakingImageContainer');
+  const numPixels = 1000;
+  let pixels = [];
+
+  function initializePixels() {
+    for (let i = 0; i < numPixels; i++) {
+      const pixel = document.createElement('div');
+      pixel.className = 'pixel';
+      container.appendChild(pixel);
+      randomizePixel(pixel);
+      pixels.push(pixel);
+    }
+  }
+
+  function randomizePixel(pixel) {
+    const x = Math.random() * container.offsetWidth;
+    const y = Math.random() * container.offsetHeight;
+    pixel.style.transform = `translate(${x}px, ${y}px)`;
+  }
+
+  function reformImage() {
+    pixels.forEach(pixel => {
+      randomizePixel(pixel);
+    });
+    setTimeout(() => {
+      pixels.forEach(pixel => {
+        pixel.style.transform = 'translate(0, 0)';
+      });
+    }, 10); // Adjust the delay to control the speed of the animation
+  }
+
+  initializePixels();
+</script>
 
     <!-- footer
     ================================================== -->
