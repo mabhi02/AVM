@@ -1,0 +1,44 @@
+body {
+    margin: 0;
+    overflow: auto;
+    background-color: black;
+}
+
+canvas {
+    display: block;
+}
+
+#animation-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+#original-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+}
+
+.contact-social {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 100;
+}
+
+.contact-social li {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.contact-social a {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+}

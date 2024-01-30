@@ -13,16 +13,12 @@
       left: 0;
       opacity: 0;
       transition: opacity 2s ease-in-out;
-      max-width: 215px;
-      max-height: 264px;
-      width: auto;
-      height: auto;
     }
   </style>
 </head>
 <body>
   <canvas id="canvas"></canvas>
-  <img style="max-height: 264px; max-width: 215px;" id="original-image" src="https://raw.githubusercontent.com/mabhi02/AVM/main/images/A-v-M.jpg" alt="Original Image">
+  <img id="original-image" src="https://raw.githubusercontent.com/mabhi02/AVM/main/images/A-v-M.jpg" alt="Original Image">
 
   <script>
     function Particle(x, y, c, s) {
@@ -66,7 +62,7 @@
       var height, width, arr = [];
       var animationStarted = false;
 
-      // Preload the image
+      // Replace the URL below with the URL of your own image
       image.crossOrigin = "Anonymous";
       image.src = "https://raw.githubusercontent.com/mabhi02/AVM/main/images/A-v-M.jpg"; // Replace with your image URL
       image.onload = init;
@@ -76,15 +72,11 @@
         height = canvas.height = areaHeight;
         width = canvas.width = areaWidth;
 
-        // Draw the image on the canvas
         context.drawImage(image, 0, 0, areaWidth, areaHeight);
-
-        // Get pixel data from the canvas
         var idata = context.getImageData(0, 0, width, height),
           data = idata.data;
         context.clearRect(0, 0, width, height);
 
-        // Create particles based on pixel data
         for (var y = 0; y < height; y += particle_size) {
           for (var x = 0; x < width; x += particle_size) {
             var o = x * 4 + y * 4 * idata.width;
@@ -98,35 +90,34 @@
           }
         }
 
-        // Start animation
         update();
         render();
-      }
 
-      function update() {
-        for (var i = 0, l = arr.length; i < l; i++) {
-          arr[i].update();
-        }
-        setTimeout(update, 1000 / 60);
-      }
-
-      function render() {
-        context.clearRect(0, 0, width, height);
-        for (var i = 0, l = arr.length; i < l; i++) {
-          arr[i].render(context);
+        function update() {
+          for (var i = 0, l = arr.length; i < l; i++) {
+            arr[i].update();
+          }
+          setTimeout(update, 1000 / 60);
         }
 
-        // Check if the animation is complete
-        if (arr.every(particle => Math.abs(particle.vx) < 0.01 && Math.abs(particle.vy) < 0.01)) {
-          fadeOriginalImage();
-        } else {
-          requestAnimationFrame(render);
-        }
-      }
+        function render() {
+          context.clearRect(0, 0, width, height);
+          for (var i = 0, l = arr.length; i < l; i++) {
+            arr[i].render(context);
+          }
 
-      function fadeOriginalImage() {
-        var originalImage = document.getElementById('original-image');
-        originalImage.style.opacity = 1;
+          // Check if the animation is complete
+          if (arr.every(particle => Math.abs(particle.vx) < 0.01 && Math.abs(particle.vy) < 0.01)) {
+            fadeOriginalImage();
+          } else {
+            requestAnimationFrame(render);
+          }
+        }
+
+        function fadeOriginalImage() {
+          var originalImage = document.getElementById('original-image');
+          originalImage.style.opacity = 1;
+        }
       }
     });
   </script>

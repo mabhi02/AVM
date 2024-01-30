@@ -1,117 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Image Particles</title>
-  <style>
-    body { margin: 0; overflow: hidden; background-color: black; }
-    canvas { display: block; }
-    #original-image {
-      position: fixed;
-      top: 0;
-      left: 0;
-      opacity: 0;
-      transition: opacity 2s ease-in-out;
-    }
-    #start-text {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: white; /* Set the text color to white */
-      font-size: 16px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Particles</title>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: black; }
+        canvas { display: block; }
+    </style>
 </head>
 <body>
-  <div id="start-text">Click Me</div>
-  <canvas id="canvas"></canvas>
-  <img id="original-image" src="https://raw.githubusercontent.com/mabhi02/AVM/main/images/A-v-M.jpg" alt="Original Image">
+    <canvas id="canvas"></canvas>
 
-  <script>
-    var animationStarted = false;
+    <script>
+        function Particle(x, y, c, s) {
+            this.x = x;
+            this.y = y;
+            this.vx = 0;
+            this.vy = 0;
 
-    function Particle(x, y, c, s) {
-      this.x = x;
-      this.y = y;
-      this.vx = 0;
-      this.vy = 0;
+            this.s = s;
+            this.c = c;
 
-      this.s = s;
-      this.c = c;
+            this.sx = x;
+            this.sy = y;
 
-      this.sx = x;
-      this.sy = y;
-
-      this.time = Date.now();
-    }
-
-    Particle.prototype = {
-      constructor: Particle,
-      update: function () {
-        this.x += this.vx;
-        this.y += this.vy;
-
-        this.vx = (this.sx - this.x) / 10;
-        this.vy = (this.sy - this.y) / 10;
-      },
-      render: function (context) {
-        context.beginPath();
-        context.fillStyle = this.c;
-        context.fillRect(this.x, this.y, this.s, this.s);
-        context.closePath();
-      }
-    };
-
-    var canvas = document.getElementById('canvas');
-    var context = canvas.getContext('2d');
-    var image = new Image();
-    var particle_size = 4;
-    var height, width, arr = [];
-
-    image.crossOrigin = "Anonymous";
-    image.src = "https://raw.githubusercontent.com/mabhi02/AVM/main/images/A-v-M.jpg"; // Replace with your image URL
-    image.onload = init;
-
-    function init() {
-      height = canvas.height = 2160;
-      width = canvas.width = 3840;
-
-      context.drawImage(image, 0, 0);
-      var idata = context.getImageData(0, 0, width, height),
-        data = idata.data;
-      context.clearRect(0, 0, width, height);
-
-      for (var y = 0; y < height; y += particle_size) {
-        for (var x = 0; x < width; x += particle_size) {
-          var o = x * 4 + y * 4 * idata.width;
-          if (data[o + 3] > 210) {
-            var c = 'rgba(' + data[o] + ',' + data[o + 1] + ',' + data[o + 2] + ',' + data[o + 3] + ')';
-            var p = new Particle(x, y, c, particle_size);
-            p.x = Math.random() * width;
-            arr.push(p);
-          }
+            this.time = Date.now();
         }
-      }
+        Particle.prototype = {
+            constructor: Particle,
+            update: function () {
+                this.x += this.vx;
+                this.y += this.vy;
 
-      animate();
-      setTimeout(function() {
-        document.getElementById('start-text').style.display = 'none'; // Hide the text after a delay
-        animationStarted = true;
-      }, 2000); // Adjust the delay time as needed
-    }
+                this.vx = (this.sx - this.x) / 10;
+                this.vy = (this.sy - this.y) / 10;
+            },
+            render: function (context) {
+                context.beginPath();
+                context.fillStyle = this.c;
+                context.fillRect(this.x, this.y, this.s, this.s);
+                context.closePath();
+            }
+        };
 
-    function animate() {
-      context.clearRect(0, 0, width, height);
-      for (var i = 0; i < arr.length; i++) {
-        arr[i].update();
-        arr[i].render(context);
-      }
-      if (!animationStarted) {
-        requestAnimationFrame(animate);
-      }
-    }
-  </script>
+        var canvas = document.getElementById('canvas');
+        var context = canvas.getContext('2d');
+        var image = new Image();
+        var particle_size = 4;
+        var height, width, arr = [];
+        var animationStarted = false;
+
+        // Replace the URL below with the URL of your own image
+        image.crossOrigin = "Anonymous";
+        image.src = "https://raw.githubusercontent.com/mabhi02/AVM/main/images/A-v-M.jpg";  // Replace with your image URL
+        image.onload = init;
+
+        function init() {
+            // Set the canvas size to 4K resolution (3840x2160 pixels)
+            height = canvas.height = 2160;
+            width = canvas.width = 3840;
+
+            context.drawImage(image, 0, 0);
+            var idata = context.getImageData(0, 0, width, height),
+                data = idata.data;
+            context.clearRect(0, 0, width, height);
+
+            for (var y = 0; y < height; y += particle_size) {
+                for (var x = 0; x < width; x += particle_size) {
+                    var o = x * 4 + y * 4 * idata.width;
+                    if (data[o + 3] > 210) {
+                        var c = 'rgba(' + data[o] + ',' + data[o + 1] + ',' + data[o + 2] + ',' + data[o + 3] + ')';
+                        var p = new Particle(x, y, c, particle_size);
+                        p.x = Math.random() * width;
+                        p.y = Math.random() * height;
+                        arr.push(p);
+                    }
+                }
+            }
+
+            canvas.onclick = function () {
+                if (!animationStarted) {
+                    animationStarted = true;
+                    update();
+                    render();
+                }
+            };
+
+            function update() {
+                for (var i = 0, l = arr.length; i < l; i++) {
+                    arr[i].update();
+                }
+                setTimeout(update, 1000 / 30);
+            }
+
+            function render() {
+                context.clearRect(0, 0, width, height);
+                for (var i = 0, l = arr.length; i < l; i++) {
+                    arr[i].render(context);
+                }
+                requestAnimationFrame(render);
+            }
+        }
+    </script>
 </body>
 </html>
