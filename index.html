@@ -286,7 +286,7 @@
 
             </div> <!-- end contact-primary -->
 
-            <div class="contact-secondary">
+            <div id=stufff class="contact-secondary">
                 <div class="contact-info">
 
                     <h3 class="h6 hide-on-fullwidth" style='color:white'; >Contact Info</h3>
@@ -319,8 +319,7 @@
                         <li>
                             <a href="#"><i class="fa fa-github" aria-hidden="true"></i></a>
                         </li>
-                    <img src="images/A-v-M.jpg" alt="Your Picture">
-
+                        <iframe src="https://abhijith-varma-mudunuri.netlify.app/avmpic" style="padding-top: 2%; border:0px #ffffff none;" name="myiFrame" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" height="264px" width="215px" allowfullscreen></iframe>
                         </li>
                         <li>
                             <!-- Replace 'https://abhijith-varma-mudunuri.netlify.app/avmpic' with the actual URL of your iframe -->
@@ -411,13 +410,43 @@
             </div>
         </div>
     </div>
+<script>
+        $(document).ready(function() {
+            // Function to check if the user has reached the specific div
+            function isElementInViewport(el) {
+                var rect = el.getBoundingClientRect();
+                return (
+                    rect.top >= 0 &&
+                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
+                );
+            }
 
+            // Function to load the iframe if the user has reached the specific div
+            function loadIframe() {
+                var iframe = '<iframe src="https://abhijith-varma-mudunuri.netlify.app/avmpic" style="border:0px #ffffff none;" name="myiFrame" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" height="264px" width="215px" allowfullscreen></iframe>';
+                
+                // Append the iframe if the user has reached the specific div
+                if (isElementInViewport(document.getElementById('stufff'))) {
+                    $('#stufff').append(iframe);
+                    // You can also remove the scroll event listener to avoid loading the iframe multiple times
+                    $(window).off('scroll', loadIframe);
+                }
+            }
+
+            // Attach the loadIframe function to the scroll event
+            $(window).on('scroll', loadIframe);
+
+            // Initial check in case the element is already in the viewport
+            loadIframe();
+        });
+    </script>
 
     <!-- Java Script
     ================================================== -->
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/plugins.js"></script>
     <script src="js/main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 </body>
 

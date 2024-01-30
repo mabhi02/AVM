@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Image Particles</title>
   <style>
-    body { margin: 0; overflow: hidden; background-color: black; }
+    body { margin: 0; overflow: hidden; background-color: #121212; }
     canvas { display: block; }
     #original-image {
       position: fixed;
@@ -107,7 +108,7 @@
         for (var i = 0, l = arr.length; i < l; i++) {
           arr[i].update();
         }
-        setTimeout(update, 1000 / 60);
+        setTimeout(update, 1000 / 30);
       }
 
       function render() {
